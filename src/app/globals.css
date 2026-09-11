@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --color-matesther-50: #eef7f0;
+  --color-matesther-100: #d7ecdc;
+  --color-matesther-200: #b0d9bb;
+  --color-matesther-600: #166b3d;
+  --color-matesther-700: #0f5230;
+  --color-matesther-800: #0c4227;
+  --color-matesther-900: #0a3520;
+  --color-matesther-950: #071f13;
+  --color-gold-400: #d9b545;
+  --color-gold-500: #c9a227;
+  --color-gold-600: #a9861f;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+/* thin scrollbars for kanban + tables */
+.slim-scroll::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.slim-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 8px;
+}
+.slim-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fadeUp 0.35s ease both;
+}

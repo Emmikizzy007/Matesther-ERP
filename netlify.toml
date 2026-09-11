@@ -1,0 +1,18 @@
+# Matesther ERP — Netlify configuration
+# This file makes "New site from Git" deploy the app correctly, no manual config needed.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Next.js needs these rewrites so deep links (e.g. /orders/3) don't 404
+[[redirects]]
+  from = "/_next/static/:splat"
+  to = "/_next/static/:splat"
+  status = 200
