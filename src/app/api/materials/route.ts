@@ -23,7 +23,7 @@ export async function GET() {
     });
     return NextResponse.json(data);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       .returning();
     return NextResponse.json(row, { status: 201 });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -66,7 +66,7 @@ export async function PUT(req: Request) {
       .returning();
     return NextResponse.json(row);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 

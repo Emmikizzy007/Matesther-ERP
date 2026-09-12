@@ -17,7 +17,7 @@ export async function GET() {
     const rows = await db.select().from(users);
     return NextResponse.json(rows.map(safe));
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -89,7 +89,7 @@ export async function PUT(req: Request) {
     if (!row) return NextResponse.json({ error: "User not found." }, { status: 404 });
     return NextResponse.json(safe(row));
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -111,6 +111,6 @@ export async function DELETE(req: Request) {
     await db.delete(users).where(eq(users.id, id));
     return NextResponse.json({ ok: true });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }

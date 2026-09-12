@@ -74,7 +74,7 @@ export async function GET(req: Request) {
     });
     return NextResponse.json(data);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -96,7 +96,7 @@ export async function POST(req: Request) {
       .returning();
     return NextResponse.json(row, { status: 201 });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -117,7 +117,7 @@ export async function PUT(req: Request) {
       .returning();
     return NextResponse.json(row);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -137,6 +137,6 @@ export async function DELETE(req: Request) {
     await db.delete(workers).where(eq(workers.id, Number(id)));
     return NextResponse.json({ ok: true });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }

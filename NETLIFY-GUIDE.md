@@ -27,9 +27,11 @@ You need two things:
 1. Go to **supabase.com** → **Start your project** (free) → sign in with GitHub.
 2. **New project** → name it `matesther` → set a strong database password (write it down) → create (takes ~1 minute).
 3. Left menu → **Settings** (gear icon) → **Database**.
-4. Copy the **connection string that contains `pooler`** — it looks like:
-   `postgres://postgres.<ref>:YOURPASSWORD@aws-0-europe-pooler.supabase.com:6536/postgres?pgbouncer=true`
-   (the `pooler` / `6536` part is important for Netlify). Keep it safe — you'll paste it in Step 4.
+4. Copy the **connection string that contains `pooler`** in the host. You'll see two options — **either one is fine**:
+   - Transaction mode (port `6536`): `...pooler.supabase.com:6536/postgres?pgbouncer=true`
+   - Session mode (port `6543`): `...pooler.supabase.com:6543/postgres`
+   
+   ⚠️ The `?pgbouncer=true` part only appears on the 6536 string — it is **not** a mistake if yours (6543) doesn't have it. Use the string exactly as displayed, no changes needed. Keep it safe — you'll paste it in Step 4.
 
 *(Prefer Neon? neon.tech works too — just use the "Pooled connection string". The rest is identical.)*
 

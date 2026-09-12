@@ -391,6 +391,10 @@ export async function GET(req: Request) {
         .slice(0, 6),
     });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    const msg = e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error";
+    return NextResponse.json(
+      { error: msg + "  —  Check that deploy/full-setup.sql was run in the Supabase project your DATABASE_URL points to." },
+      { status: 500 }
+    );
   }
 }

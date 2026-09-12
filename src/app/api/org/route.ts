@@ -11,7 +11,7 @@ export async function GET() {
     ]);
     return NextResponse.json({ org: orgRows[0] ?? null, users: userRows });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -25,6 +25,6 @@ export async function PUT(req: Request) {
       .returning();
     return NextResponse.json(row);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }

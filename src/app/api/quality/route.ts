@@ -15,7 +15,7 @@ export async function GET(req: Request) {
     const rows = await db.select().from(qualityChecks).orderBy(desc(qualityChecks.checkedAt));
     return NextResponse.json(rows);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -55,6 +55,6 @@ export async function POST(req: Request) {
       .returning();
     return NextResponse.json(row, { status: 201 });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }

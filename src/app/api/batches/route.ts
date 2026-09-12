@@ -28,7 +28,7 @@ export async function GET(req: Request) {
       : await db.select().from(productionBatches);
     return NextResponse.json(rows);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -79,7 +79,7 @@ export async function POST(req: Request) {
     await refreshBatchAndOrder(batch.id);
     return NextResponse.json(batch, { status: 201 });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -90,6 +90,6 @@ export async function DELETE(req: Request) {
     await db.delete(productionBatches).where(eq(productionBatches.id, Number(id)));
     return NextResponse.json({ ok: true });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }

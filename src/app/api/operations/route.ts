@@ -57,7 +57,7 @@ export async function GET(req: Request) {
     if (workerId) rows = rows.filter((r) => r.workerId === Number(workerId));
     return NextResponse.json(rows);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -144,6 +144,6 @@ export async function PUT(req: Request) {
     await refreshBatchAndOrder(existing.productionBatchId);
     return NextResponse.json(row);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }

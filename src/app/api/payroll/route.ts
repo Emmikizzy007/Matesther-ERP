@@ -44,7 +44,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ month, workers: rows, totals, payments, overtime });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -94,6 +94,6 @@ export async function POST(req: Request) {
       .returning();
     return NextResponse.json(row, { status: 201 });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }

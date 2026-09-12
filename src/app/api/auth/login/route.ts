@@ -45,6 +45,19 @@ export async function POST(req: Request) {
       role: user.role,
     });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    // Surface the real Postgres error (e.g. "relation \"users\" does not exist")
+    const msg =
+      e?.queryError?.message ||
+      e?.cause?.message ||
+      e?.message ||
+      "Unknown error";
+    return NextResponse.json(
+      {
+        error:
+          msg +
+          "  —  If this says a table does not exist, run deploy/full-setup.sql in the Supabase project that your Netlify DATABASE_URL points to.",
+      },
+      { status: 500 }
+    );
   }
 }

@@ -28,7 +28,7 @@ export async function GET(req: Request) {
     if (orderId) data = data.filter((d) => d.orderId === Number(orderId));
     return NextResponse.json(data);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
     await refreshOrderMoney(Number(b.orderId));
     return NextResponse.json(row, { status: 201 });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -65,6 +65,6 @@ export async function DELETE(req: Request) {
     if (row) await refreshOrderMoney(row.orderId);
     return NextResponse.json({ ok: true });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }

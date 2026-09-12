@@ -151,7 +151,7 @@ export async function GET(
       deliveredQuantity: delRows.reduce((s, d) => s + (d.deliveredQuantity ?? 0), 0),
     });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -191,7 +191,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     await refreshOrderMoney(orderId);
     return NextResponse.json(row);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
 
@@ -201,6 +201,6 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
     await db.delete(orders).where(eq(orders.id, Number(id)));
     return NextResponse.json({ ok: true });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e?.queryError?.message || e?.cause?.message || e?.message || "Unknown error" }, { status: 500 });
   }
 }
